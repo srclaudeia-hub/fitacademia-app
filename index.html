@@ -3,108 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FitAcademia - Plataforma de Gestão de Academia</title>
+    <title>FitAcademia - Seu Caminho para Saúde</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; color: #333; }
-        .login-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #2E75B6 0%, #1e5091 100%); }
-        .login-box { background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); width: 100%; max-width: 450px; }
-        .login-title { font-size: 2rem; text-align: center; margin-bottom: 1.5rem; color: #2E75B6; }
-        .form-group { margin-bottom: 1rem; }
-        .form-label { display: block; margin-bottom: 0.4rem; font-weight: 600; color: #333; font-size: 0.9rem; }
-        .form-input, .form-select { width: 100%; padding: 0.7rem; border: 1px solid #ddd; border-radius: 5px; font-size: 0.9rem; }
-        .form-input:focus, .form-select:focus { outline: none; border-color: #2E75B6; box-shadow: 0 0 5px rgba(46, 117, 182, 0.3); }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
-        .btn { width: 100%; padding: 0.8rem; border: none; border-radius: 5px; cursor: pointer; font-weight: 600; font-size: 0.95rem; }
-        .btn-primary { background: #2E75B6; color: white; margin-bottom: 0.5rem; }
-        .btn-primary:hover { background: #1e5091; }
-        .toggle-text { text-align: center; margin-top: 0.8rem; font-size: 0.85rem; }
-        .toggle-text a { color: #2E75B6; cursor: pointer; text-decoration: none; font-weight: 600; }
-        .error { background: #fee; color: #c33; padding: 0.8rem; border-radius: 5px; margin-bottom: 1rem; display: none; font-size: 0.9rem; }
-        .success { background: #efe; color: #3c3; padding: 0.8rem; border-radius: 5px; margin-bottom: 1rem; display: none; font-size: 0.9rem; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #F5F0FF 0%, #FFF5F7 100%); color: #4a4a4a; }
+        :root { --primary: #C8B4E8; --secondary: #F4A6C1; --accent: #B4E8D4; --warning: #FFD4A3; --success: #B4E8C1; --light-bg: #FAF8FF; --text: #4a4a4a; }
+        
+        .login-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); padding: 1rem; }
+        .login-box { background: white; padding: 2.5rem; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); width: 100%; max-width: 500px; }
+        .login-title { font-size: 2.2rem; text-align: center; margin-bottom: 0.5rem; color: var(--primary); font-weight: 700; }
+        .login-subtitle { text-align: center; color: #888; margin-bottom: 2rem; font-size: 0.95rem; }
+        .form-group { margin-bottom: 1.2rem; }
+        .form-label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text); font-size: 0.9rem; }
+        .form-input, .form-select { width: 100%; padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 0.95rem; transition: all 0.3s; }
+        .form-input:focus, .form-select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(200, 180, 232, 0.1); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .btn { width: 100%; padding: 1rem; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 1rem; transition: all 0.3s; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; margin-bottom: 0.5rem; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(200, 180, 232, 0.3); }
+        .toggle-text { text-align: center; margin-top: 1rem; font-size: 0.9rem; color: #666; }
+        .toggle-text a { color: var(--primary); cursor: pointer; text-decoration: none; font-weight: 600; }
+        .error { background: #FFE8E8; color: #d32f2f; padding: 1rem; border-radius: 10px; margin-bottom: 1rem; display: none; font-size: 0.9rem; border-left: 4px solid #d32f2f; }
+        .success { background: #E8F5E9; color: #388e3c; padding: 1rem; border-radius: 10px; margin-bottom: 1rem; display: none; font-size: 0.9rem; border-left: 4px solid #388e3c; }
         .app-screen { display: none; }
-        header { background: linear-gradient(135deg, #2E75B6 0%, #1e5091 100%); color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1.8rem; font-weight: bold; }
-        .user-info { display: flex; align-items: center; gap: 1rem; }
-        .user-badge { background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 25px; font-size: 0.9rem; }
-        .logout-btn { background: rgba(255,255,255,0.3); border: none; color: white; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; font-size: 0.9rem; }
+        header { background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .logo { font-size: 1.8rem; font-weight: 700; }
+        .user-info { display: flex; align-items: center; gap: 1.5rem; }
+        .user-badge { background: rgba(255,255,255,0.25); padding: 0.6rem 1.2rem; border-radius: 20px; font-size: 0.9rem; backdrop-filter: blur(10px); }
+        .logout-btn { background: rgba(255,255,255,0.3); border: none; color: white; padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 600; transition: all 0.3s; }
+        .logout-btn:hover { background: rgba(255,255,255,0.4); }
         .container { display: flex; min-height: calc(100vh - 70px); }
-        .sidebar { width: 220px; background: white; border-right: 1px solid #ddd; padding: 1.5rem 0; overflow-y: auto; }
-        .sidebar-item { padding: 0.8rem 1.2rem; cursor: pointer; border-left: 4px solid transparent; display: flex; align-items: center; gap: 10px; font-size: 0.9rem; transition: all 0.3s; }
-        .sidebar-item:hover { background: #f0f0f0; }
-        .sidebar-item.active { background: #e8f2f9; border-left-color: #2E75B6; color: #2E75B6; font-weight: 600; }
+        .sidebar { width: 240px; background: white; border-right: 1px solid #e8e8e8; padding: 1.5rem 0; overflow-y: auto; }
+        .sidebar-item { padding: 1rem 1.2rem; cursor: pointer; border-left: 4px solid transparent; display: flex; align-items: center; gap: 12px; font-size: 0.95rem; transition: all 0.3s; color: var(--text); }
+        .sidebar-item:hover { background: #f8f8f8; border-left-color: var(--primary); }
+        .sidebar-item.active { background: #f0f0f8; border-left-color: var(--primary); color: var(--primary); font-weight: 600; }
         .main { flex: 1; padding: 2rem; overflow-y: auto; }
-        .page-title { font-size: 1.8rem; color: #2E75B6; margin-bottom: 0.3rem; }
+        .page-title { font-size: 2rem; color: var(--primary); margin-bottom: 0.3rem; font-weight: 700; }
         .page-subtitle { color: #999; margin-bottom: 1.5rem; font-size: 0.95rem; }
-        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
-        .card { background: white; border-radius: 10px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-        .card-title { font-size: 1rem; font-weight: 600; color: #2E75B6; margin-bottom: 0.5rem; }
-        .card-value { font-size: 2rem; font-weight: bold; color: #333; }
-        .card-label { font-size: 0.8rem; color: #999; margin-top: 0.3rem; }
-        .card-status { font-size: 0.75rem; padding: 0.3rem 0.8rem; border-radius: 15px; display: inline-block; margin-top: 0.5rem; }
-        .status-good { background: #d4edda; color: #155724; }
-        .status-warning { background: #fff3cd; color: #856404; }
-        .form-section { background: white; border-radius: 10px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-        .section-title { font-weight: 600; color: #2E75B6; margin-bottom: 1rem; font-size: 0.95rem; }
-        .btn-save { background: #28a745; color: white; padding: 0.8rem 2rem; border: none; border-radius: 5px; cursor: pointer; font-weight: 600; }
-        .btn-save:hover { background: #218838; }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .card { background: white; border-radius: 15px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 2px solid #f0f0f0; transition: all 0.3s; }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+        .card-title { font-size: 0.9rem; font-weight: 600; color: var(--primary); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .card-value { font-size: 2rem; font-weight: 700; color: var(--text); }
+        .card-label { font-size: 0.8rem; color: #999; margin-top: 0.5rem; }
+        .card-status { font-size: 0.75rem; padding: 0.4rem 0.8rem; border-radius: 10px; display: inline-block; margin-top: 0.5rem; }
+        .status-good { background: #D4F1D4; color: #2e7d32; }
+        .status-warning { background: #FFE8B4; color: #E65100; }
+        .form-section { background: white; border-radius: 15px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 2px solid #f0f0f0; }
+        .section-title { font-weight: 700; color: var(--primary); margin-bottom: 1.5rem; font-size: 1.1rem; }
+        .btn-save { background: linear-gradient(135deg, var(--accent) 0%, #A8D4C4 100%); color: white; padding: 0.8rem 2rem; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; transition: all 0.3s; }
+        .btn-save:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(180, 232, 212, 0.3); }
+        .btn-add-training { background: linear-gradient(135deg, var(--secondary) 0%, #F08BA0 100%); color: white; padding: 0.8rem 2rem; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; transition: all 0.3s; margin-bottom: 2rem; }
+        .btn-add-training:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(244, 166, 193, 0.3); }
         .section { display: none; }
         .section.active { display: block; }
-        .training-day { background: #f9f9f9; padding: 1.5rem; margin-bottom: 1.5rem; border-radius: 8px; border-left: 4px solid #2E75B6; }
-        .training-day-title { font-size: 1.1rem; font-weight: 600; color: #2E75B6; margin-bottom: 1rem; }
+        .training-day { background: linear-gradient(135deg, #F8F8FF 0%, #FFF0F5 100%); padding: 1.5rem; margin-bottom: 1.5rem; border-radius: 12px; border-left: 5px solid var(--primary); border: 2px solid #e8e8f0; }
+        .training-day-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .training-day-title { font-size: 1.2rem; font-weight: 700; color: var(--primary); }
+        .training-day-edit { background: var(--primary); color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600; transition: all 0.3s; }
+        .training-day-edit:hover { box-shadow: 0 3px 10px rgba(200, 180, 232, 0.3); }
         .exercise-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-        .exercise-table th { background: #e8f2f9; padding: 0.8rem; text-align: left; border-bottom: 2px solid #ddd; }
-        .exercise-table td { padding: 0.8rem; border-bottom: 1px solid #eee; }
-        .exercise-table tr:hover { background: #f5f5f5; }
-        .video-link { color: #2E75B6; cursor: pointer; text-decoration: none; }
-        .recipe-card { background: white; border-radius: 10px; padding: 1.5rem; margin-bottom: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-        .recipe-title { font-size: 1.1rem; font-weight: 600; color: #2E75B6; margin-bottom: 0.5rem; }
+        .exercise-table th { background: rgba(200, 180, 232, 0.1); padding: 0.8rem; text-align: left; border-bottom: 2px solid var(--primary); font-weight: 700; color: var(--primary); }
+        .exercise-table td { padding: 0.8rem; border-bottom: 1px solid #f0f0f0; }
+        .exercise-table tr:hover { background: rgba(200, 180, 232, 0.05); }
+        .video-link { color: var(--secondary); cursor: pointer; text-decoration: none; font-weight: 600; transition: all 0.3s; }
+        .video-link:hover { color: var(--primary); }
+        .recipe-card { background: white; border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 2px solid #f0f0f0; }
+        .recipe-title { font-size: 1.1rem; font-weight: 700; color: var(--secondary); margin-bottom: 0.5rem; }
         .recipe-meta { font-size: 0.85rem; color: #999; margin-bottom: 1rem; }
-        .btn-recipe { background: #2E75B6; color: white; padding: 0.6rem 1.2rem; border: none; border-radius: 5px; cursor: pointer; font-size: 0.9rem; }
-        .article-card { background: white; border-radius: 10px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-        .article-title { font-size: 1.1rem; font-weight: 600; color: #2E75B6; margin-bottom: 0.5rem; }
-        .article-ref { font-size: 0.85rem; color: #999; margin-bottom: 0.8rem; }
-        .article-content { color: #666; line-height: 1.6; font-size: 0.95rem; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+        .btn-recipe { background: linear-gradient(135deg, var(--secondary) 0%, #F08BA0 100%); color: white; padding: 0.6rem 1.2rem; border: none; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 600; transition: all 0.3s; }
+        .btn-recipe:hover { transform: translateY(-2px); box-shadow: 0 3px 10px rgba(244, 166, 193, 0.3); }
+        .article-card { background: white; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 2px solid #f0f0f0; }
+        .article-title { font-size: 1.1rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem; }
+        .article-ref { font-size: 0.85rem; color: #999; margin-bottom: 0.8rem; font-weight: 600; }
+        .article-content { color: var(--text); line-height: 1.8; font-size: 0.95rem; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 1000; align-items: center; justify-content: center; }
         .modal.active { display: flex; }
-        .modal-content { background: white; padding: 2rem; border-radius: 10px; width: 90%; max-width: 600px; max-height: 80vh; overflow-y: auto; }
-        .modal-close { text-align: right; cursor: pointer; font-size: 1.5rem; color: #999; margin-bottom: 1rem; }
-        @media (max-width: 768px) { .sidebar { width: 100%; padding: 1rem 0; } .container { flex-direction: column; } .form-row { grid-template-columns: 1fr; } .main { padding: 1rem; } }
+        .modal-content { background: white; padding: 2rem; border-radius: 15px; width: 90%; max-width: 600px; max-height: 80vh; overflow-y: auto; box-shadow: 0 10px 50px rgba(0,0,0,0.3); }
+        .modal-close { text-align: right; cursor: pointer; font-size: 1.8rem; color: #999; margin-bottom: 1rem; }
+        .progress-section { background: linear-gradient(135deg, rgba(200, 180, 232, 0.1) 0%, rgba(244, 166, 193, 0.1) 100%); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; border: 2px solid #e8e8f0; }
+        .tip-box { background: linear-gradient(135deg, #B4E8D4 0%, #A8D4C4 100%); color: white; padding: 1.2rem; border-radius: 10px; margin: 1rem 0; border-left: 4px solid #2e9f7f; }
+        .training-form { background: #f8f8ff; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0; border: 2px solid #e8e8f0; }
+        @media (max-width: 768px) { .sidebar { width: 100%; padding: 1rem 0; } .container { flex-direction: column; } .form-row { grid-template-columns: 1fr; } .main { padding: 1rem; } .dashboard-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 <div id="loginScreen" class="login-screen">
     <div class="login-box">
         <div class="login-title">💪 FitAcademia</div>
+        <div class="login-subtitle">Seu caminho para uma vida mais saudável</div>
         <div id="errorMsg" class="error"></div>
         <div id="successMsg" class="success"></div>
         <form id="loginForm">
             <div class="form-group">
-                <label class="form-label">Email</label>
+                <label class="form-label">📧 Email</label>
                 <input type="email" id="loginEmail" class="form-input" placeholder="seu@email.com" required>
             </div>
             <div class="form-group">
-                <label class="form-label">Senha</label>
+                <label class="form-label">🔐 Senha</label>
                 <input type="password" id="loginPassword" class="form-input" placeholder="Sua senha" required>
             </div>
-            <button type="submit" class="btn btn-primary">Entrar</button>
+            <button type="submit" class="btn btn-primary">Entrar na Plataforma</button>
         </form>
-        <div class="toggle-text">Não tem conta? <a onclick="toggleAuthMode()">Criar Conta</a></div>
+        <div class="toggle-text">Não tem conta? <a onclick="toggleAuthMode()">Criar minha conta</a></div>
         <form id="signupForm" style="display:none;">
             <div class="form-row">
-                <div class="form-group"><label class="form-label">Nome Completo</label><input type="text" id="signupName" class="form-input" placeholder="Seu nome" required></div>
-                <div class="form-group"><label class="form-label">Email</label><input type="email" id="signupEmail" class="form-input" placeholder="seu@email.com" required></div>
+                <div class="form-group"><label class="form-label">👤 Nome</label><input type="text" id="signupName" class="form-input" placeholder="Seu nome" required></div>
+                <div class="form-group"><label class="form-label">📧 Email</label><input type="email" id="signupEmail" class="form-input" placeholder="seu@email.com" required></div>
             </div>
             <div class="form-row">
-                <div class="form-group"><label class="form-label">Telefone</label><input type="tel" id="signupPhone" class="form-input" placeholder="(11) 99999-9999"></div>
-                <div class="form-group"><label class="form-label">Data de Nascimento</label><input type="date" id="signupBirthdate" class="form-input" required></div>
+                <div class="form-group"><label class="form-label">📱 Telefone</label><input type="tel" id="signupPhone" class="form-input" placeholder="(11) 99999-9999"></div>
+                <div class="form-group"><label class="form-label">📅 Nascimento</label><input type="date" id="signupBirthdate" class="form-input" required></div>
             </div>
             <div class="form-row">
-                <div class="form-group"><label class="form-label">Gênero</label><select id="signupGender" class="form-select" required><option value="">Selecione...</option><option value="Masculino">Masculino</option><option value="Feminino">Feminino</option></select></div>
-                <div class="form-group"><label class="form-label">Peso (kg)</label><input type="number" id="signupWeight" class="form-input" step="0.1" placeholder="Ex: 75.5" required></div>
+                <div class="form-group"><label class="form-label">👫 Gênero</label><select id="signupGender" class="form-select" required><option value="">Selecione...</option><option value="Masculino">Masculino</option><option value="Feminino">Feminino</option></select></div>
+                <div class="form-group"><label class="form-label">⚖️ Peso (kg)</label><input type="number" id="signupWeight" class="form-input" step="0.1" placeholder="75.5" required></div>
             </div>
             <div class="form-row">
-                <div class="form-group"><label class="form-label">Altura (cm)</label><input type="number" id="signupHeight" class="form-input" step="0.1" placeholder="Ex: 180" required></div>
+                <div class="form-group"><label class="form-label">📏 Altura (cm)</label><input type="number" id="signupHeight" class="form-input" step="0.1" placeholder="180" required></div>
                 <div class="form-group"><label class="form-label">Cintura (cm)</label><input type="number" id="signupWaist" class="form-input" step="0.1" required></div>
             </div>
             <div class="form-row">
@@ -113,51 +129,52 @@
             </div>
             <div class="form-group"><label class="form-label">Perna (cm)</label><input type="number" id="signupLeg" class="form-input" step="0.1" required></div>
             <div class="form-row">
-                <div class="form-group"><label class="form-label">Há quanto tempo pratica academia?</label><select id="signupAcademyTime" class="form-select" required><option value="">Selecione...</option><option value="Menos de 6 meses">Menos de 6 meses</option><option value="6-12 meses">6-12 meses</option><option value="1-2 anos">1-2 anos</option><option value="2+ anos">2+ anos</option></select></div>
-                <div class="form-group"><label class="form-label">Já visitou nutricionista?</label><select id="signupNutritionist" class="form-select" required><option value="">Selecione...</option><option value="Sim">Sim</option><option value="Não">Não</option></select></div>
+                <div class="form-group"><label class="form-label">⏳ Tempo de Academia</label><select id="signupAcademyTime" class="form-select" required><option value="">Selecione...</option><option value="Menos de 6 meses">Menos de 6 meses</option><option value="6-12 meses">6-12 meses</option><option value="1-2 anos">1-2 anos</option><option value="2+ anos">2+ anos</option></select></div>
+                <div class="form-group"><label class="form-label">👨‍⚕️ Nutricionista?</label><select id="signupNutritionist" class="form-select" required><option value="">Selecione...</option><option value="Sim">Sim</option><option value="Não">Não</option></select></div>
             </div>
             <div class="form-row">
-                <div class="form-group"><label class="form-label">Tem personal trainer?</label><select id="signupPersonalTrainer" class="form-select" required><option value="">Selecione...</option><option value="Sim">Sim</option><option value="Não">Não</option></select></div>
-                <div class="form-group"><label class="form-label">Objetivo Principal</label><select id="signupObjective" class="form-select" required><option value="">Selecione...</option><option value="Ganho de Massa">Ganho de Massa</option><option value="Perda de Peso">Perda de Peso</option><option value="Definição">Definição</option><option value="Força">Força</option></select></div>
+                <div class="form-group"><label class="form-label">🏋️ Personal Trainer?</label><select id="signupPersonalTrainer" class="form-select" required><option value="">Selecione...</option><option value="Sim">Sim</option><option value="Não">Não</option></select></div>
+                <div class="form-group"><label class="form-label">🎯 Seu Objetivo</label><select id="signupObjective" class="form-select" required><option value="">Selecione...</option><option value="Ganho de Massa">Ganho de Massa 💪</option><option value="Perda de Peso">Perda de Peso 🔥</option><option value="Definição">Definição ✨</option><option value="Força">Força Máxima 🦾</option></select></div>
             </div>
-            <div class="form-group"><label class="form-label">Senha</label><input type="password" id="signupPassword" class="form-input" placeholder="Mínimo 6 caracteres" required></div>
-            <button type="submit" class="btn btn-primary">Criar Conta</button>
+            <div class="form-group"><label class="form-label">🔐 Senha</label><input type="password" id="signupPassword" class="form-input" placeholder="Mínimo 6 caracteres" required></div>
+            <button type="submit" class="btn btn-primary">Começar Minha Jornada 🚀</button>
         </form>
-        <div class="toggle-text" id="signupToggle" style="display:none;">Já tem conta? <a onclick="toggleAuthMode()">Fazer Login</a></div>
+        <div class="toggle-text" id="signupToggle" style="display:none;">Já tem conta? <a onclick="toggleAuthMode()">Fazer login</a></div>
     </div>
 </div>
 <div id="appScreen" class="app-screen">
     <header>
         <div class="logo">💪 FitAcademia</div>
-        <div class="user-info"><div class="user-badge">👤 <span id="userName">Cliente</span></div><button class="logout-btn" onclick="logout()">Sair</button></div>
+        <div class="user-info"><div class="user-badge">👋 Bem-vindo(a), <span id="userName">Cliente</span>!</div><button class="logout-btn" onclick="logout()">Sair</button></div>
     </header>
     <div class="container">
         <div class="sidebar">
             <div class="sidebar-item active" onclick="showSection('dashboard')">📊 Dashboard</div>
             <div class="sidebar-item" onclick="showSection('measurements')">📏 Minhas Medidas</div>
-            <div class="sidebar-item" onclick="showSection('training')">🏋️ Meu Treino</div>
+            <div class="sidebar-item" onclick="showSection('training')">🏋️ Meus Treinos</div>
+            <div class="sidebar-item" onclick="showSection('progress')">📈 Meu Progresso</div>
             <div class="sidebar-item" onclick="showSection('recipes')">🍎 Receitas</div>
             <div class="sidebar-item" onclick="showSection('articles')">📚 Artigos</div>
         </div>
         <div class="main">
             <section id="dashboard" class="section active">
-                <h1 class="page-title">Dashboard</h1>
-                <p class="page-subtitle">Seu progresso e métricas de saúde</p>
+                <h1 class="page-title">📊 Bem-vindo ao seu Dashboard</h1>
+                <p class="page-subtitle">Acompanhe sua evolução com informações precisas</p>
                 <div class="dashboard-grid">
-                    <div class="card"><div class="card-title">IMC</div><div class="card-value" id="imcValue">--</div><div class="card-label">Índice de Massa Corporal</div><div class="card-status" id="imcStatus"></div></div>
-                    <div class="card"><div class="card-title">RCQ</div><div class="card-value" id="rcqValue">--</div><div class="card-label">Razão Cintura-Quadril</div><div class="card-status" id="rcqStatus"></div></div>
-                    <div class="card"><div class="card-title">TDEE</div><div class="card-value" id="tdeeValue">--</div><div class="card-label">Calorias diárias</div></div>
+                    <div class="card"><div class="card-title">IMC</div><div class="card-value" id="imcValue">--</div><div class="card-label">Índice de Massa</div><div class="card-status" id="imcStatus"></div></div>
+                    <div class="card"><div class="card-title">RCQ</div><div class="card-value" id="rcqValue">--</div><div class="card-label">Saúde Cardio</div><div class="card-status" id="rcqStatus"></div></div>
+                    <div class="card"><div class="card-title">TDEE</div><div class="card-value" id="tdeeValue">--</div><div class="card-label">Calorias Diárias</div></div>
                 </div>
-                <div class="form-section"><div class="section-title">⚡ Dica do Especialista</div><p id="specialistTip" style="color: #666; line-height: 1.6;"></p></div>
+                <div class="progress-section"><h3 class="section-title">🎯 Seu Objetivo</h3><p id="objectiveText" style="font-size: 1.1rem; margin-bottom: 1rem;"></p><p id="objectiveTip" style="color: #666; line-height: 1.6;"></p></div>
+                <div class="tip-box"><strong>💡 Dica do Especialista:</strong><p id="specialistTip" style="margin-top: 0.5rem;"></p></div>
             </section>
             <section id="measurements" class="section">
-                <h1 class="page-title">Minhas Medidas</h1>
-                <p class="page-subtitle">Atualize seus dados biométricos</p>
-                <div class="form-section">
-                    <div class="section-title">Dados Pessoais</div>
+                <h1 class="page-title">📏 Suas Medidas</h1>
+                <p class="page-subtitle">Atualize regularmente para acompanhar seu progresso</p>
+                <div class="form-section"><div class="section-title">Dados Biométricos</div>
                     <div class="form-row">
-                        <div class="form-group"><label class="form-label">Peso (kg)</label><input type="number" id="peso" class="form-input" step="0.1"></div>
-                        <div class="form-group"><label class="form-label">Altura (cm)</label><input type="number" id="altura" class="form-input" step="0.1"></div>
+                        <div class="form-group"><label class="form-label">⚖️ Peso (kg)</label><input type="number" id="peso" class="form-input" step="0.1"></div>
+                        <div class="form-group"><label class="form-label">📏 Altura (cm)</label><input type="number" id="altura" class="form-input" step="0.1"></div>
                     </div>
                     <div class="section-title" style="margin-top: 1.5rem;">Circunferências (cm)</div>
                     <div class="form-row">
@@ -169,22 +186,67 @@
                         <div class="form-group"><label class="form-label">Perna</label><input type="number" id="perna" class="form-input" step="0.1"></div>
                     </div>
                     <button class="btn-save" onclick="saveMeasurements()">💾 Salvar Medidas</button>
-                    <div id="saveMessage" style="margin-top: 1rem; display: none; text-align: center; color: #28a745; font-weight: 600;"></div>
+                    <div id="saveMessage" style="margin-top: 1rem; display: none; text-align: center; color: #2e7d32; font-weight: 600;"></div>
                 </div>
             </section>
             <section id="training" class="section">
-                <h1 class="page-title">Meu Treino Recomendado</h1>
-                <p class="page-subtitle" id="trainingSubtitle">Plano personalizado</p>
+                <h1 class="page-title">🏋️ Seus Treinos</h1>
+                <p class="page-subtitle">Escolha o melhor treino para você ou crie um personalizado</p>
+                <button class="btn-add-training" onclick="showTrainingForm()">➕ Criar Novo Treino Personalizado</button>
+                <div id="trainingFormContainer" style="display: none;">
+                    <div class="training-form">
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">Criar Novo Treino</h3>
+                        <div class="form-group"><label class="form-label">Nome do Treino (ex: "Dia A - Peito")</label><input type="text" id="trainingName" class="form-input" placeholder="Nome do seu treino"></div>
+                        <div class="form-group"><label class="form-label">Exercício</label><input type="text" id="exerciseName" class="form-input" placeholder="Ex: Supino Reto"></div>
+                        <div class="form-row">
+                            <div class="form-group"><label class="form-label">Séries</label><input type="number" id="exerciseSets" class="form-input" step="1" placeholder="4"></div>
+                            <div class="form-group"><label class="form-label">Repetições</label><input type="text" id="exerciseReps" class="form-input" placeholder="6-8"></div>
+                        </div>
+                        <div class="form-group"><label class="form-label">Aparelho/Equipment</label><input type="text" id="exerciseEquip" class="form-input" placeholder="Banco Supino"></div>
+                        <div style="display: flex; gap: 1rem;">
+                            <button class="btn-save" onclick="addExerciseToTraining()" style="flex: 1;">➕ Adicionar Exercício</button>
+                            <button class="btn-save" style="flex: 1; background: linear-gradient(135deg, var(--accent) 0%, #A8D4C4 100%);" onclick="saveNewTraining()">✅ Salvar Treino</button>
+                        </div>
+                        <button class="btn-save" style="background: #ccc; margin-top: 0.5rem; width: 100%;" onclick="cancelTrainingForm()">❌ Cancelar</button>
+                        <div id="exercisesPreview" style="margin-top: 1rem;"></div>
+                    </div>
+                </div>
                 <div id="trainingContent"></div>
             </section>
+            <section id="progress" class="section">
+                <h1 class="page-title">📈 Seu Progresso</h1>
+                <p class="page-subtitle">Acompanhe sua evolução ao longo do tempo</p>
+                <div class="form-section">
+                    <div class="section-title">🎯 Métricas de Progresso</div>
+                    <div id="progressChart" style="line-height: 2; color: var(--text);">
+                        <p><strong>Peso Inicial:</strong> <span id="initialWeight">--</span> kg</p>
+                        <p><strong>Peso Atual:</strong> <span id="currentWeight">--</span> kg</p>
+                        <p><strong>Variação:</strong> <span id="weightChange">--</span> kg</p>
+                        <hr style="margin: 1rem 0; border: none; border-top: 2px solid #e8e8f0;">
+                        <p><strong>Cintura Inicial:</strong> <span id="initialWaist">--</span> cm</p>
+                        <p><strong>Cintura Atual:</strong> <span id="currentWaist">--</span> cm</p>
+                        <p><strong>Variação:</strong> <span id="waistChange">--</span> cm</p>
+                    </div>
+                    <button class="btn-save" onclick="updateProgress()" style="margin-top: 1.5rem;">🔄 Atualizar Progresso</button>
+                </div>
+                <div class="tip-box" style="margin-top: 2rem;">
+                    <strong>📝 Lembretes Importantes:</strong>
+                    <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+                        <li>Pese-se 1x por semana (sempre no mesmo horário)</li>
+                        <li>Meça circunferências a cada 2 semanas</li>
+                        <li>Tire fotos do seu corpo mensalmente</li>
+                        <li>Consistência é mais importante que perfeição!</li>
+                    </ul>
+                </div>
+            </section>
             <section id="recipes" class="section">
-                <h1 class="page-title">Receitas Low-Carb</h1>
-                <p class="page-subtitle">Fáceis, rápidas e acessíveis</p>
+                <h1 class="page-title">🍎 Receitas Nutritivas</h1>
+                <p class="page-subtitle">Deliciosas e saudáveis para seus objetivos</p>
                 <div id="recipesContent"></div>
             </section>
             <section id="articles" class="section">
-                <h1 class="page-title">Artigos Científicos</h1>
-                <p class="page-subtitle">Base científica para suas decisões</p>
+                <h1 class="page-title">📚 Artigos Científicos</h1>
+                <p class="page-subtitle">Conhecimento com base em estudos reais</p>
                 <div id="articlesContent"></div>
             </section>
         </div>
@@ -197,18 +259,48 @@
     </div>
 </div>
 <script>
-class LocalAuth {
+class FitAcademiaApp {
     constructor() {
         this.currentUser = null;
         this.users = JSON.parse(localStorage.getItem('fitUsers')) || {};
         this.userData = JSON.parse(localStorage.getItem('fitUserData')) || {};
         this.measurements = JSON.parse(localStorage.getItem('fitMeasurements')) || {};
+        this.trainings = JSON.parse(localStorage.getItem('fitTrainings')) || this.getDefaultTrainings();
+        this.currentTrainingForm = {};
+    }
+    getDefaultTrainings() {
+        return {
+            'Dia A - Peito e Tríceps': [
+                { ex: 'Supino Reto', ser: 4, reps: '6-8', ap: 'Banco Supino' },
+                { ex: 'Supino Inclinado', ser: 3, reps: '8-10', ap: 'Banco Inclinado' },
+                { ex: 'Tríceps na Polia', ser: 3, reps: '10-12', ap: 'Polia Alta' },
+                { ex: 'Flexão de Braços', ser: 3, reps: '10-15', ap: 'Peso Corporal' }
+            ],
+            'Dia B - Costas e Bíceps': [
+                { ex: 'Puxada Frontal', ser: 4, reps: '6-8', ap: 'Máquina' },
+                { ex: 'Rosca Direta', ser: 3, reps: '8-10', ap: 'Barra' },
+                { ex: 'Remada Curvada', ser: 3, reps: '8-10', ap: 'Barra' },
+                { ex: 'Rosca Inversa', ser: 3, reps: '10-12', ap: 'Barra' }
+            ],
+            'Dia C - Pernas': [
+                { ex: 'Leg Press', ser: 4, reps: '8-10', ap: 'Máquina' },
+                { ex: 'Agachamento Livre', ser: 3, reps: '8-10', ap: 'Barra' },
+                { ex: 'Extensora', ser: 3, reps: '10-12', ap: 'Máquina' },
+                { ex: 'Flexora', ser: 3, reps: '10-12', ap: 'Máquina' }
+            ],
+            'Dia D - Ombros': [
+                { ex: 'Desenvolvimento', ser: 4, reps: '6-8', ap: 'Halteres' },
+                { ex: 'Elevação Lateral', ser: 3, reps: '10-12', ap: 'Halteres' },
+                { ex: 'Elevação Frontal', ser: 3, reps: '10-12', ap: 'Halteres' },
+                { ex: 'Encolhimento', ser: 3, reps: '10-12', ap: 'Barra' }
+            ]
+        };
     }
     signup(email, password, name, phone, birthdate, gender, weight, height, waist, hip, arm, leg, academyTime, nutritionist, personalTrainer, objective) {
         if (this.users[email]) throw new Error('Email já cadastrado');
         this.users[email] = { password, name };
         this.userData[email] = { phone, birthdate, gender, academyTime, nutritionist, personalTrainer, objective };
-        this.measurements[email] = { peso: weight, altura: height, cintura: waist, quadril: hip, braco: arm, perna: leg };
+        this.measurements[email] = { peso: weight, altura: height, cintura: waist, quadril: hip, braco: arm, perna: leg, data: new Date().toLocaleDateString('pt-BR') };
         this.save();
         return { email, name };
     }
@@ -223,65 +315,47 @@ class LocalAuth {
         localStorage.setItem('fitUsers', JSON.stringify(this.users));
         localStorage.setItem('fitUserData', JSON.stringify(this.userData));
         localStorage.setItem('fitMeasurements', JSON.stringify(this.measurements));
+        localStorage.setItem('fitTrainings', JSON.stringify(this.trainings));
     }
     getMeasurements(email) { return this.measurements[email] || {}; }
     saveMeasurements(email, data) { this.measurements[email] = data; this.save(); }
     getUserData(email) { return this.userData[email] || {}; }
+    calculateMetrics(peso, altura, cintura, quadril) {
+        if (!peso || !altura) return null;
+        const imc = peso / (altura / 100) ** 2;
+        let imcStatus = imc < 18.5 ? 'Abaixo do peso' : imc < 25 ? 'Peso normal' : imc < 30 ? 'Sobrepeso' : 'Obeso';
+        let rcq = '--', rcqStatus = '';
+        if (cintura && quadril) {
+            rcq = (cintura / quadril).toFixed(2);
+            rcqStatus = rcq < 0.85 ? 'Risco baixo' : 'Risco moderado';
+        }
+        const tdee = Math.round(peso * 24 * 1.5);
+        return { imc: imc.toFixed(1), imcStatus, rcq, rcqStatus, tdee };
+    }
 }
-const auth = new LocalAuth();
-const trainings = {
-    'Dia A - Peito e Tríceps': [
-        { ex: 'Supino Reto', ser: 4, reps: '6-8', ap: 'Banco Supino', vid: 'https://www.youtube.com/results?search_query=supino+reto' },
-        { ex: 'Supino Inclinado', ser: 3, reps: '8-10', ap: 'Banco Inclinado', vid: 'https://www.youtube.com/results?search_query=supino+inclinado' },
-        { ex: 'Tríceps na Polia', ser: 3, reps: '10-12', ap: 'Polia Alta', vid: 'https://www.youtube.com/results?search_query=tríceps+na+polia' },
-        { ex: 'Flexão de Braços', ser: 3, reps: '10-15', ap: 'Peso Corporal', vid: 'https://www.youtube.com/results?search_query=flexão+de+braços' }
-    ],
-    'Dia B - Costas e Bíceps': [
-        { ex: 'Puxada Frontal', ser: 4, reps: '6-8', ap: 'Máquina', vid: 'https://www.youtube.com/results?search_query=puxada+frontal' },
-        { ex: 'Rosca Direta', ser: 3, reps: '8-10', ap: 'Barra', vid: 'https://www.youtube.com/results?search_query=rosca+direta' },
-        { ex: 'Remada Curvada', ser: 3, reps: '8-10', ap: 'Barra', vid: 'https://www.youtube.com/results?search_query=remada+curvada' },
-        { ex: 'Rosca Inversa', ser: 3, reps: '10-12', ap: 'Barra', vid: 'https://www.youtube.com/results?search_query=rosca+inversa' }
-    ],
-    'Dia C - Pernas': [
-        { ex: 'Leg Press', ser: 4, reps: '8-10', ap: 'Máquina', vid: 'https://www.youtube.com/results?search_query=leg+press' },
-        { ex: 'Agachamento Livre', ser: 3, reps: '8-10', ap: 'Barra', vid: 'https://www.youtube.com/results?search_query=agachamento+livre' },
-        { ex: 'Extensora de Pernas', ser: 3, reps: '10-12', ap: 'Máquina', vid: 'https://www.youtube.com/results?search_query=extensora+pernas' },
-        { ex: 'Flexora de Pernas', ser: 3, reps: '10-12', ap: 'Máquina', vid: 'https://www.youtube.com/results?search_query=flexora+pernas' },
-        { ex: 'Panturrilha em Pé', ser: 3, reps: '12-15', ap: 'Máquina', vid: 'https://www.youtube.com/results?search_query=panturrilha' }
-    ],
-    'Dia D - Ombros': [
-        { ex: 'Desenvolvimento com Halteres', ser: 4, reps: '6-8', ap: 'Halteres', vid: 'https://www.youtube.com/results?search_query=desenvolvimento+ombros' },
-        { ex: 'Elevação Lateral', ser: 3, reps: '10-12', ap: 'Halteres', vid: 'https://www.youtube.com/results?search_query=elevação+lateral' },
-        { ex: 'Elevação Frontal', ser: 3, reps: '10-12', ap: 'Halteres', vid: 'https://www.youtube.com/results?search_query=elevação+frontal' },
-        { ex: 'Encolhimento de Ombros', ser: 3, reps: '10-12', ap: 'Barra', vid: 'https://www.youtube.com/results?search_query=encolhimento+ombros' }
-    ]
-};
+const app = new FitAcademiaApp();
 const recipes = [
-    { name: 'Ovos Recheados com Queijo', time: '15 min', dif: 'Muito Fácil', carbs: '39g', cal: '100kcal', ing: ['4 ovos', '50g queijo cheddar', '1 colher chá mostarda', 'Sal e pimenta'], prep: ['Cozinhe os ovos até ficarem duros (10 minutos em água fervente)', 'Deixe esfriar e abra ao meio', 'Retire a gema e misture com queijo, mostarda e tempero', 'Recheie as claras com a mistura'] },
-    { name: 'Salada de Frango com Abacate', time: '20 min', dif: 'Fácil', carbs: '28g', cal: '380kcal', ing: ['200g peito de frango', '1/2 abacate', 'Alface', 'Tomate', 'Azeite e limão'], prep: ['Grelhe o frango temperado', 'Corte em cubos', 'Misture com alface, tomate e abacate', 'Tempere com limão e azeite extra virgem'] },
-    { name: 'Salmão ao Forno com Brócolis', time: '25 min', dif: 'Fácil', carbs: '18g', cal: '420kcal', ing: ['150g salmão', '200g brócolis', 'Limão', 'Azeite', 'Sal e ervas'], prep: ['Tempere o salmão com limão, sal e ervas', 'Asse a 180°C por 15 minutos', 'Cozinhe o brócolis al dente', 'Sirva junto ao salmão'] },
-    { name: 'Frango Grelhado com Batata Doce', time: '30 min', dif: 'Fácil', carbs: '42g', cal: '350kcal', ing: ['200g peito de frango', '1 batata doce média', 'Alecrim', 'Azeite', 'Sal'], prep: ['Asse a batata doce em cubos a 180°C por 20 minutos', 'Tempere o frango com alecrim e sal', 'Grelhe o frango até cozinhar', 'Misture os dois no prato'] }
+    { name: 'Ovos Recheados', time: '15 min', dif: 'Muito Fácil', carbs: '3g', cal: '100kcal', ing: ['4 ovos', '50g queijo', 'Mostarda', 'Sal'], prep: ['Cozinhe os ovos', 'Corte ao meio', 'Misture a gema com tempero', 'Recheie as claras'] },
+    { name: 'Salada Frango c/ Abacate', time: '20 min', dif: 'Fácil', carbs: '5g', cal: '380kcal', ing: ['200g frango', '1/2 abacate', 'Alface', 'Tomate'], prep: ['Grelhe o frango', 'Corte em cubos', 'Misture com salada', 'Tempere com limão'] },
+    { name: 'Salmão Grelhado', time: '25 min', dif: 'Fácil', carbs: '2g', cal: '420kcal', ing: ['150g salmão', '200g brócolis', 'Limão', 'Azeite'], prep: ['Tempere o salmão', 'Asse 15 minutos', 'Cozinhe brócolis', 'Sirva junto'] },
+    { name: 'Frango c/ Batata Doce', time: '30 min', dif: 'Fácil', carbs: '28g', cal: '350kcal', ing: ['200g frango', '1 batata doce', 'Alecrim', 'Azeite'], prep: ['Asse batata em cubos', 'Grelhe o frango', 'Tempere com ervas', 'Combine no prato'] }
 ];
 const articles = [
-    { title: 'Proteína e Ganho de Massa Muscular', ref: 'ISSN, 2017', content: 'Estudo recente da International Society of Sports Nutrition (ISSN) comprova que a ingestão de 1,6-2,2g de proteína por kg de peso corporal, associada a treino de força progressivo, resulta em ganho significativo de massa muscular. A recomendação varia conforme o objetivo: para ganho máximo, 2,2g/kg é ideal.' },
-    { title: 'RCQ e Saúde Cardiovascular', ref: 'OMS, 2000', content: 'Segundo diretrizes da Organização Mundial de Saúde (OMS), a razão cintura-quadril é um indicador mais confiável que o IMC isolado para avaliar risco de doenças cardiovasculares. Valores superiores a 0,90 (homens) e 0,85 (mulheres) indicam risco moderado ou alto.' },
-    { title: 'Importância do Descanso para Ganho de Massa', ref: 'ACSM, 2021', content: 'A American College of Sports Medicine (ACSM) recomenda 7-8 horas diárias de sono de qualidade, pois regulam o cortisol (hormônio do estresse) e aumentam a hormônio do crescimento, ambos essenciais para recuperação muscular e síntese proteica.' },
-    { title: 'IMC: Limitações e Interpretação', ref: 'OMS, 2019', content: 'O Índice de Massa Corporal (IMC) é uma ferramenta útil mas com limitações. Não diferencia massa muscular de gordura, portanto é mais efetivo quando combinado com outras medidas como RCQ, percentual de gordura corporal e composição corporal.' },
-    { title: 'Carboidratos no Pré e Pós-Treino', ref: 'ISSN, 2019', content: 'Estudos mostram que ingerir 1-4g de carboidratos por kg de peso corporal 1-4 horas antes do treino otimiza performance. No pós-treino, carboidratos rápidos (1-1,2g/kg) combinados com proteína aceleram a recuperação muscular.' },
-    { title: 'Periodização do Treino para Ganho de Massa', ref: 'ACSM, 2022', content: 'A periodização (variação sistemática do volume, intensidade e frequência) é fundamental para ganho contínuo de massa muscular. Recomenda-se ciclos de 4-6 semanas com aumento progressivo de carga, seguido de deload para recuperação.' }
+    { title: 'Proteína para Ganho Muscular', ref: 'ISSN, 2017', content: 'A ingestão ideal é 1,6-2,2g por kg de peso corporal. Estudos comprovam que este nível, associado a treino de força, resulta em ganho máximo de massa muscular. Distribua entre 4-5 refeições ao longo do dia.' },
+    { title: 'RCQ: Saúde Cardiovascular', ref: 'OMS, 2000', content: 'A razão cintura-quadril é mais confiável que IMC isolado para detectar risco cardíaco. Valores >0,90 (homens) e >0,85 (mulheres) indicam risco. Combine com outras medidas para avaliação completa.' },
+    { title: 'Importância do Sono', ref: 'ACSM, 2021', content: 'Durma 7-8 horas diárias para melhor recuperação. O sono regula cortisol e aumenta hormônio do crescimento, essenciais para síntese proteica. Durma no mesmo horário todos os dias.' },
+    { title: 'Periodização do Treino', ref: 'ACSM, 2022', content: 'Use ciclos de 4-6 semanas com progressão de carga, seguido de deload para recuperação. Isso evita plateaus e mantém ganhos consistentes. Alterne entre diferentes estímulos.' },
+    { title: 'Carboidratos Inteligentes', ref: 'ISSN, 2019', content: 'Consuma 1-4g de carboidrato por kg de peso 1-4 horas antes. Pós-treino, 1-1,2g/kg com proteína acelera recuperação. Escolha sources complexas (aveia, batata doce, arroz integral).' }
 ];
 function toggleAuthMode() {
-    const loginForm = document.getElementById('loginForm');
-    const signupForm = document.getElementById('signupForm');
-    const signupToggle = document.getElementById('signupToggle');
-    loginForm.style.display = loginForm.style.display === 'none' ? 'block' : 'none';
-    signupForm.style.display = signupForm.style.display === 'none' ? 'block' : 'none';
-    signupToggle.style.display = signupToggle.style.display === 'none' ? 'block' : 'none';
+    document.getElementById('loginForm').style.display = document.getElementById('loginForm').style.display === 'none' ? 'block' : 'none';
+    document.getElementById('signupForm').style.display = document.getElementById('signupForm').style.display === 'none' ? 'block' : 'none';
+    document.getElementById('signupToggle').style.display = document.getElementById('signupToggle').style.display === 'none' ? 'block' : 'none';
 }
 document.getElementById('loginForm')?.addEventListener('submit', (e) => {
     e.preventDefault();
     try {
-        auth.login(document.getElementById('loginEmail').value, document.getElementById('loginPassword').value);
+        app.login(document.getElementById('loginEmail').value, document.getElementById('loginPassword').value);
         showApp();
     } catch (err) {
         showError(err.message);
@@ -290,7 +364,7 @@ document.getElementById('loginForm')?.addEventListener('submit', (e) => {
 document.getElementById('signupForm')?.addEventListener('submit', (e) => {
     e.preventDefault();
     try {
-        auth.signup(
+        app.signup(
             document.getElementById('signupEmail').value,
             document.getElementById('signupPassword').value,
             document.getElementById('signupName').value,
@@ -308,7 +382,7 @@ document.getElementById('signupForm')?.addEventListener('submit', (e) => {
             document.getElementById('signupPersonalTrainer').value,
             document.getElementById('signupObjective').value
         );
-        showSuccess('Conta criada com sucesso! Faça login.');
+        showSuccess('Conta criada! Faça login para continuar.');
         setTimeout(() => toggleAuthMode(), 1500);
     } catch (err) {
         showError(err.message);
@@ -327,40 +401,34 @@ function showSuccess(msg) {
     setTimeout(() => el.style.display = 'none', 4000);
 }
 function logout() {
-    auth.logout();
+    app.logout();
     document.getElementById('appScreen').style.display = 'none';
     document.getElementById('loginScreen').style.display = 'flex';
-    document.getElementById('loginForm').style.display = 'block';
-    document.getElementById('signupForm').style.display = 'none';
-    document.getElementById('signupToggle').style.display = 'none';
 }
 function showApp() {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('appScreen').style.display = 'block';
-    document.getElementById('userName').textContent = auth.currentUser.name;
-    const userData = auth.getUserData(auth.currentUser.email);
-    if (userData.objective) {
-        document.getElementById('trainingSubtitle').textContent = `Plano personalizado: ${userData.objective}`;
-    }
+    document.getElementById('userName').textContent = app.currentUser.name;
     loadData();
     loadTraining();
     loadRecipes();
     loadArticles();
+    updateObjectiveInfo();
 }
-function calculateMetrics(peso, altura, cintura, quadril) {
-    if (!peso || !altura) return null;
-    const imc = peso / (altura / 100) ** 2;
-    let imcStatus = imc < 18.5 ? 'Abaixo do peso' : imc < 25 ? 'Peso normal' : imc < 30 ? 'Sobrepeso' : 'Obeso';
-    let rcq = '--', rcqStatus = '';
-    if (cintura && quadril) {
-        rcq = (cintura / quadril).toFixed(2);
-        rcqStatus = rcq < 0.85 ? 'Risco baixo' : 'Risco moderado';
-    }
-    const tdee = Math.round(peso * 24 * 1.5);
-    return { imc: imc.toFixed(1), imcStatus, rcq, rcqStatus, tdee };
+function updateObjectiveInfo() {
+    const userData = app.getUserData(app.currentUser.email);
+    const objective = userData.objective || 'Sua saúde';
+    document.getElementById('objectiveText').innerHTML = `<strong>${objective}</strong>`;
+    const tips = {
+        'Ganho de Massa': 'Foque em treinos intensos e alimentação rica em proteína. Durma bem e tenha paciência!',
+        'Perda de Peso': 'Crie déficit calórico moderado. Treino + alimentação + sono = sucesso garantido!',
+        'Definição': 'Combine treino com intensidade + alimentação proteica. Você consegue!',
+        'Força Máxima': 'Trabalhe com cargas progressivas. Cada semana mais forte!'
+    };
+    document.getElementById('objectiveTip').textContent = tips[objective] || 'Você tem capacidade para alcançar seus objetivos!';
 }
 function loadData() {
-    const m = auth.getMeasurements(auth.currentUser.email);
+    const m = app.getMeasurements(app.currentUser.email);
     document.getElementById('peso').value = m.peso || '';
     document.getElementById('altura').value = m.altura || '';
     document.getElementById('cintura').value = m.cintura || '';
@@ -376,18 +444,20 @@ function saveMeasurements() {
         cintura: parseFloat(document.getElementById('cintura').value) || 0,
         quadril: parseFloat(document.getElementById('quadril').value) || 0,
         braco: parseFloat(document.getElementById('braco').value) || 0,
-        perna: parseFloat(document.getElementById('perna').value) || 0
+        perna: parseFloat(document.getElementById('perna').value) || 0,
+        data: new Date().toLocaleDateString('pt-BR')
     };
-    auth.saveMeasurements(auth.currentUser.email, data);
+    app.saveMeasurements(app.currentUser.email, data);
     updateDashboard();
+    updateProgress();
     const msg = document.getElementById('saveMessage');
-    msg.textContent = '✅ Medidas salvas com sucesso!';
+    msg.textContent = '✅ Medidas salvas com sucesso! Você está no caminho certo!';
     msg.style.display = 'block';
-    setTimeout(() => msg.style.display = 'none', 2000);
+    setTimeout(() => msg.style.display = 'none', 3000);
 }
 function updateDashboard() {
-    const m = auth.getMeasurements(auth.currentUser.email);
-    const metrics = calculateMetrics(m.peso, m.altura, m.cintura, m.quadril);
+    const m = app.getMeasurements(app.currentUser.email);
+    const metrics = app.calculateMetrics(m.peso, m.altura, m.cintura, m.quadril);
     if (metrics) {
         document.getElementById('imcValue').textContent = metrics.imc;
         document.getElementById('imcStatus').textContent = '✓ ' + metrics.imcStatus;
@@ -398,49 +468,97 @@ function updateDashboard() {
         document.getElementById('tdeeValue').textContent = metrics.tdee;
     }
     const tips = [
-        'Mantenha consistência nos treinos! 3-4x por semana é ideal.',
-        'Proteína é fundamental: consuma 1,6-2,2g/kg de peso.',
-        'Hidratação essencial: beba 2-3 litros de água por dia.',
-        'Durma bem: 7-8 horas para melhor recuperação.',
-        'Carboidrato pré-treino: 1-4g/kg para melhor performance.',
-        'Descanse: ciclos de 4-6 semanas com deload.',
+        '🎯 Consistência é a chave. Continue em frente!',
+        '💪 Você é mais forte do que pensa!',
+        '🚀 Cada treino aproxima você do seu objetivo.',
+        '🥗 Alimentação + Treino + Descanso = Resultado',
+        '🌟 Você merece estar aqui. Acredite em si mesmo!',
+        '⏰ Tempo passa. Treinar agora = felicidade depois',
+        '💎 Seu progresso é sua melhor recompensa',
+        '🔥 Dor temporária, recompensa eterna!'
     ];
     document.getElementById('specialistTip').textContent = tips[Math.floor(Math.random() * tips.length)];
 }
 function loadTraining() {
     let html = '';
-    Object.entries(trainings).forEach(([day, exs]) => {
-        html += `<div class="training-day"><div class="training-day-title">${day}</div>`;
-        html += '<table class="exercise-table"><thead><tr><th>Exercício</th><th style="width: 60px;">Séries</th><th style="width: 70px;">Reps</th><th>Aparelho</th><th style="width: 60px;">Vídeo</th></tr></thead><tbody>';
+    Object.entries(app.trainings).forEach(([day, exs]) => {
+        html += `<div class="training-day"><div class="training-day-header"><div class="training-day-title">${day}</div><button class="training-day-edit" onclick="editTraining('${day}')">✏️ Editar</button></div><table class="exercise-table"><thead><tr><th>Exercício</th><th style="width: 50px;">Séries</th><th style="width: 60px;">Reps</th><th>Aparelho</th></tr></thead><tbody>`;
         exs.forEach(e => {
-            html += `<tr><td>${e.ex}</td><td>${e.ser}</td><td>${e.reps}</td><td>${e.ap}</td><td><a href="${e.vid}" target="_blank" class="video-link">▶ Ver</a></td></tr>`;
+            html += `<tr><td><strong>${e.ex}</strong></td><td>${e.ser}</td><td>${e.reps}</td><td>${e.ap}</td></tr>`;
         });
         html += '</tbody></table></div>';
     });
     document.getElementById('trainingContent').innerHTML = html;
 }
+function showTrainingForm() {
+    document.getElementById('trainingFormContainer').style.display = 'block';
+    app.currentTrainingForm = {};
+    document.getElementById('exercisesPreview').innerHTML = '';
+    window.scrollTo(0, 0);
+}
+function cancelTrainingForm() {
+    document.getElementById('trainingFormContainer').style.display = 'none';
+    app.currentTrainingForm = {};
+}
+function addExerciseToTraining() {
+    const name = document.getElementById('trainingName').value;
+    const ex = document.getElementById('exerciseName').value;
+    const ser = document.getElementById('exerciseSets').value;
+    const reps = document.getElementById('exerciseReps').value;
+    const equip = document.getElementById('exerciseEquip').value;
+    if (!name || !ex || !ser || !reps) {
+        showError('Preencha todos os campos do exercício');
+        return;
+    }
+    if (!app.currentTrainingForm[name]) app.currentTrainingForm[name] = [];
+    app.currentTrainingForm[name].push({ ex, ser: parseInt(ser), reps, ap: equip });
+    let preview = `<strong>Treino: ${name}</strong><br>`;
+    app.currentTrainingForm[name].forEach(e => {
+        preview += `• ${e.ex} - ${e.ser} séries x ${e.reps} reps (${e.ap})<br>`;
+    });
+    document.getElementById('exercisesPreview').innerHTML = preview;
+    document.getElementById('exerciseName').value = '';
+    document.getElementById('exerciseSets').value = '';
+    document.getElementById('exerciseReps').value = '';
+    document.getElementById('exerciseEquip').value = '';
+    showSuccess('Exercício adicionado!');
+}
+function saveNewTraining() {
+    if (Object.keys(app.currentTrainingForm).length === 0 || Object.values(app.currentTrainingForm)[0].length === 0) {
+        showError('Adicione pelo menos um exercício');
+        return;
+    }
+    Object.assign(app.trainings, app.currentTrainingForm);
+    app.save();
+    cancelTrainingForm();
+    loadTraining();
+    showSuccess('✅ Treino personalizado criado com sucesso!');
+}
+function editTraining(dayName) {
+    showError('Função de edição em breve!');
+}
 function loadRecipes() {
     let html = '';
     recipes.forEach(r => {
-        html += `<div class="recipe-card"><div class="recipe-title">${r.name}</div><div class="recipe-meta">⏱️ ${r.time} | 📊 ${r.dif} | 🔥 ${r.cal} | 🌾 ${r.carbs}</div><button class="btn-recipe" onclick="showRecipe('${r.name}')">Ver Receita Completa</button></div>`;
+        html += `<div class="recipe-card"><div class="recipe-title">${r.name}</div><div class="recipe-meta">⏱️ ${r.time} | 📊 ${r.dif} | 🔥 ${r.cal} | 🌾 Carbs: ${r.carbs}</div><button class="btn-recipe" onclick="showRecipe('${r.name}')">Ver Receita Completa 👇</button></div>`;
     });
     document.getElementById('recipesContent').innerHTML = html;
 }
 function loadArticles() {
     let html = '';
     articles.forEach(a => {
-        html += `<div class="article-card"><div class="article-title">${a.title}</div><div class="article-ref">📚 Referência: ${a.ref}</div><div class="article-content">${a.content}</div></div>`;
+        html += `<div class="article-card"><div class="article-title">${a.title}</div><div class="article-ref">📚 Fonte: ${a.ref}</div><div class="article-content">${a.content}</div></div>`;
     });
     document.getElementById('articlesContent').innerHTML = html;
 }
 function showRecipe(name) {
     const recipe = recipes.find(r => r.name === name);
     if (!recipe) return;
-    let html = `<h2 style="color:#2E75B6; margin-bottom:1rem;">${recipe.name}</h2>`;
-    html += `<p style="color:#999; margin-bottom:1.5rem;">⏱️ ${recipe.time} | 📊 ${recipe.dif} | 🔥 ${recipe.cal} | 🌾 ${recipe.carbs}</p>`;
-    html += '<h3 style="color:#2E75B6; margin:1.5rem 0 0.5rem 0;">Ingredientes</h3><ul style="margin-left:2rem; line-height: 1.8;">';
+    let html = `<h2 style="color: var(--primary); margin-bottom: 1rem;">${recipe.name}</h2>`;
+    html += `<p style="color: #999; margin-bottom: 1.5rem;">⏱️ ${recipe.time} | 📊 ${recipe.dif} | 🔥 ${recipe.cal} | 🌾 ${recipe.carbs}</p>`;
+    html += '<h3 style="color: var(--secondary); margin: 1.5rem 0 0.5rem 0;">Ingredientes</h3><ul style="margin-left: 2rem; line-height: 1.8;">';
     recipe.ing.forEach(i => html += `<li>${i}</li>`);
-    html += '</ul><h3 style="color:#2E75B6; margin:1.5rem 0 0.5rem 0;">Modo de Preparo</h3><ol style="margin-left:2rem; line-height: 1.8;">';
+    html += '</ul><h3 style="color: var(--secondary); margin: 1.5rem 0 0.5rem 0;">Modo de Preparo</h3><ol style="margin-left: 2rem; line-height: 1.8;">';
     recipe.prep.forEach(p => html += `<li>${p}</li>`);
     html += '</ol>';
     document.getElementById('modalBody').innerHTML = html;
@@ -449,15 +567,23 @@ function showRecipe(name) {
 function closeModal() {
     document.getElementById('modal').classList.remove('active');
 }
+function updateProgress() {
+    const m = app.getMeasurements(app.currentUser.email);
+    if (m.peso) {
+        document.getElementById('currentWeight').textContent = m.peso;
+        document.getElementById('currentWaist').textContent = m.cintura || '--';
+    }
+}
 function showSection(id) {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
     document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
     event.target.closest('.sidebar-item').classList.add('active');
+    window.scrollTo(0, 0);
 }
 window.addEventListener('load', () => {
-    if (!auth.users['demo@fitacademia.com']) {
-        auth.signup(
+    if (!app.users['demo@fitacademia.com']) {
+        app.signup(
             'demo@fitacademia.com', '123456', 'João Silva',
             '(11) 98765-4321', '1990-05-15', 'Masculino',
             82.5, 183, 85, 104, 38, 58,
