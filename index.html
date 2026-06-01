@@ -886,7 +886,38 @@
                 <h1 class="page-title">🏋️ Seu Treino Personalizado</h1>
                 <p class="page-subtitle" id="trainingSubtitle">Plano de treino estruturado com 4 dias</p>
 
+                <!-- TREINO PADRÃO -->
                 <div id="trainingContent"></div>
+
+                <!-- CRIAR TREINO CUSTOMIZADO -->
+                <div class="form-section" style="margin-top: 3rem;">
+                    <div class="form-section-title">➕ Criar Seu Próprio Exercício</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Nome do Exercício</label>
+                            <input type="text" id="customExerciseName" class="form-input" placeholder="Ex: Rosca Invertida">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Aparelho/Equipamento</label>
+                            <input type="text" id="customApparatus" class="form-input" placeholder="Ex: Barra, Halteres, Máquina">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Peso (kg)</label>
+                            <input type="number" id="customWeight" class="form-input" step="0.5" placeholder="Ex: 20">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Repetições</label>
+                            <input type="text" id="customReps" class="form-input" placeholder="Ex: 10-12 ou 8-10">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="addCustomExercise()" style="margin-top: 1rem;">✅ Adicionar Exercício</button>
+                </div>
+
+                <!-- EXERCÍCIOS CUSTOMIZADOS -->
+                <div class="form-section" style="margin-top: 2rem;">
+                    <div class="form-section-title">💪 Meus Exercícios Customizados</div>
+                    <div id="customExercisesContent" style="color: #999; font-style: italic;">Nenhum exercício customizado ainda. Crie o seu acima!</div>
+                </div>
             </div>
 
             <!-- ===== RECEITAS ===== -->
@@ -1296,6 +1327,86 @@ function loadTraining() {
         html += '</tbody></table></div></div>';
     });
     document.getElementById('trainingContent').innerHTML = html;
+    loadCustomExercises();
+}
+
+// ===== FUNÇÕES DE TREINO CUSTOMIZADO =====
+function addCustomExercise() {
+    const name = document.getElementById('customExerciseName').value.trim();
+    const apparatus = document.getElementById('customApparatus').value.trim();
+    const weight = document.getElementById('customWeight').value.trim();
+    const reps = document.getElementById('customReps').value.trim();
+
+    if (!name || !apparatus || !weight || !reps) {
+        showError('❌ Preencha todos os campos do exercício!');
+        return;
+    }
+
+    // Obter exercícios customizados do usuário
+    const user = db.getUser();
+    if (!user.customExercises) {
+        user.customExercises = [];
+    }
+
+    // Adicionar novo exercício
+    user.customExercises.push({
+        name: name,
+        apparatus: apparatus,
+        weight: weight,
+        reps: reps,
+        createdAt: new Date().toISOString()
+    });
+
+    // Salvar no banco de dados
+    db.updateUser({ customExercises: user.customExercises });
+
+    // Limpar formulário
+    document.getElementById('customExerciseName').value = '';
+    document.getElementById('customApparatus').value = '';
+    document.getElementById('customWeight').value = '';
+    document.getElementById('customReps').value = '';
+
+    // Recarregar lista de exercícios
+    loadCustomExercises();
+    showSuccess('✅ Exercício adicionado com sucesso!');
+}
+
+function loadCustomExercises() {
+    const user = db.getUser();
+    const customExercises = user.customExercises || [];
+    const container = document.getElementById('customExercisesContent');
+
+    if (customExercises.length === 0) {
+        container.innerHTML = '<p style="color: #999; font-style: italic;">Nenhum exercício customizado ainda. Crie o seu acima!</p>';
+        return;
+    }
+
+    let html = '<div class="table-container"><table><thead><tr><th>Exercício</th><th>Aparelho</th><th>Peso (kg)</th><th>Reps</th><th>Ação</th></tr></thead><tbody>';
+
+    customExercises.forEach((ex, idx) => {
+        html += `<tr>
+            <td><strong>${ex.name}</strong></td>
+            <td>${ex.apparatus}</td>
+            <td>${ex.weight}</td>
+            <td>${ex.reps}</td>
+            <td><button class="btn btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;" onclick="deleteCustomExercise(${idx})">🗑️ Deletar</button></td>
+        </tr>`;
+    });
+
+    html += '</tbody></table></div>';
+    container.innerHTML = html;
+}
+
+function deleteCustomExercise(idx) {
+    if (!confirm('Tem certeza que deseja deletar este exercício?')) return;
+
+    const user = db.getUser();
+    if (user.customExercises) {
+        user.customExercises.splice(idx, 1);
+        db.updateUser({ customExercises: user.customExercises });
+        loadCustomExercises();
+        showSuccess('✅ Exercício deletado!');
+    }
 }
 
 // ===== FUNÇÕES DE RECEITAS =====
